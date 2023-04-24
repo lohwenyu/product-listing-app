@@ -3,7 +3,7 @@
     align-content: center;
 }
 
-.product-container {
+.listing-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, 18rem);
     justify-content: center;
@@ -11,7 +11,7 @@
     row-gap: 2rem;
 }
 
-.product-card {
+.listing-card {
     width: 18rem;
 }
 

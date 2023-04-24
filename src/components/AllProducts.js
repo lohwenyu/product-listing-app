@@ -4,7 +4,8 @@ import image from '../assets/placeholder-image.jpg';
 
 import './AllProducts.css';
 
-const products = [{
+const products = [
+    {
         uid: "1",
         category: "Clothing",
         image: image,
@@ -67,6 +68,22 @@ const products = [{
         name: "product 8", 
         price: "$100", 
         description: "Some quick example text to build on the card title and make up the bulk of the card's content."
+    },
+    {
+        uid: "7",
+        category: "Housing",
+        image: image,
+        name: "product 7", 
+        price: "$204", 
+        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
+    },
+    {
+        uid: "8",
+        category: "Daily Needs",
+        image: image,
+        name: "product 8", 
+        price: "$100", 
+        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
     }
 ]
 
@@ -74,7 +91,7 @@ const productCategories = ['Clothing', 'Housing', 'Daily Needs']
 
 const AllProducts = () => {
     return (
-        <>
+        <div className="main-container">
             <h1>Products</h1>
 
             <Form>
@@ -98,9 +115,8 @@ const AllProducts = () => {
                         </Card.Body>
                     </Card>
                 })}
-                
             </div>
-        </>
+        </div>
     )
 };
 

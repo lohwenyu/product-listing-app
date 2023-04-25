@@ -1,6 +1,8 @@
 import React from "react";
 import { useAuth } from "../provider/AuthProvider";
 
+import { Form, Button } from "react-bootstrap";
+
 const Profile = () => {
     const { user, logout } = useAuth();
     const handleLogout = () => {
@@ -9,11 +11,11 @@ const Profile = () => {
 
     return (
         <>
-            <h1>Welcome {user.username}</h1>
+            <h1>Profile {user.username}</h1>
+
             
-            <button type="submit" onClick={handleLogout}>
-                Logout
-            </button>
+
+            <Button variant="outline-primary" onClick={handleLogout}>Logout</Button>
         </>
     );
 };

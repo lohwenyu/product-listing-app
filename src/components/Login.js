@@ -47,6 +47,7 @@ const Login = () => {
                 <Button variant="outline-primary" type="submit" onClick={handleLogin} className="button">
                     Login
                 </Button>
+                <br/>
                 <Form.Text>New to Platform?</Form.Text>
                 <Button variant="link" onClick={redirectRegister}>Register here</Button>
             </Form>

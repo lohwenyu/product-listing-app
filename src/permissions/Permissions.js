@@ -1,5 +1,4 @@
 const PERMISSIONS = {
-    CAN_VIEW_ABOUT: "view_about",
-    CAN_VIEW_MYLISTINGS: "view_myListings",
+    IS_AUTHORISED: "authorised",
 };
 export default PERMISSIONS;

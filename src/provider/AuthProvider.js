@@ -12,17 +12,17 @@ export const AuthProvider = ({ children }) => {
         permissions: [],
     });
     const login = (user) => {
-        if (user === "admin") {
-            setUser({ username: user, permissions: ["view_myListings"] });
-        } else {
-            setUser({ username: user, permissions: ["view_about"] });
-        }
+        setUser({ username: user, permissions: ["authorised"] });
         navigate(redirectPath, { replace: true });
     };
     const logout = () => {
         setUser({ username: "", permissions: [] });
     };
-    return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+    const register = (user) => {
+        setUser({ username: user, permissions: ["authorised"] });
+        navigate(redirectPath, { replace: true });
+    }
+    return <AuthContext.Provider value={{ user, login, logout, register }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

@@ -15,7 +15,7 @@ export const NavigationBar = () => {
         //     {user.username && <NavLink to="/profile">Profile</NavLink>}
         // </nav>
 
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" sticky="top">
             <Container>
                 <Navbar.Brand>Platform</Navbar.Brand>
                 <Navbar.Collapse>

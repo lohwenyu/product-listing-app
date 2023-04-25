@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import image from '../assets/placeholder-image.jpg';
 
 import './MyListings.css';
@@ -39,12 +40,20 @@ const listings = [
     }
 ]
 
+
+
 const MyListings = () => {
+
+    const navigate = useNavigate()
+
+    const redirectNewListing = () => {
+        navigate('/newListing')
+    }
 
     return (
         <div className="main-container">
             <h1>My Listings</h1>
-            <Button variant="primary">Add Listing</Button>
+            <Button variant="primary" onClick={redirectNewListing}>New Listing</Button>
 
             <div className="listing-container">
                 {listings.map((listing) => {

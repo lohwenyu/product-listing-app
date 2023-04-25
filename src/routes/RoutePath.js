@@ -9,7 +9,9 @@ import Authorisation from "./Authorisation";
 import PERMISSIONS from "../permissions/Permissions";
 import AllProducts from "../components/AllProducts";
 import MyListings from "../components/MyListings";
+import NewListing from "../components/NewListing";
 import Profile from "../components/Profile";
+
 
 const RoutePath = () => {
     return (
@@ -38,6 +40,7 @@ const RoutePath = () => {
             <Route element={<Authorisation permissions={[PERMISSIONS.IS_AUTHORISED]} />}>
                 <Route path="/allProducts" element={<AllProducts />} />
                 <Route path="/myListings" element={<MyListings />} />
+                <Route path="/newListing" element={<NewListing />} />
                 <Route path="/profile" element={<Profile />} />
             </Route>
         </Routes>

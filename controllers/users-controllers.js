@@ -4,20 +4,17 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const { query } = require("../models/db");
 
-const DUMMY_USERS = [
-    {
-        uid: "25388sd3",
-        username: "hello",
-        email: "hello@test.com",
-        password: "fdhsgrr838"
-    }
-];
+const getUsers = async (req, res, next) => {
 
-const getUsers = (req, res, next) => {
-    res.json({ users: DUMMY_USERS });
+    const sql = `
+        SELECT * FROM users
+    `;
+    const users = await query(sql);
+
+    res.json({ users });
 };
 
-const register = (req, res, next) => {
+const register = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         throw new HttpError("Invalid register information, check data.", 422);
@@ -25,19 +22,23 @@ const register = (req, res, next) => {
 
     const { username, email, password } = req.body;
 
-    const hasEmail = DUMMY_USERS.find((user) => {
-        return user.email === email;
-    });
-    if (hasEmail) {
+    const sqlEmail = `
+        SELECT * FROM users
+        WHERE email = ?
+    `;
+    const hasEmail = await query(sqlEmail, [email]);
+    if (hasEmail.length !== 0) {
         throw new HttpError("Could not create user, email exists.", 422);
-    }
+    };
 
-    const hasUsername = DUMMY_USERS.find((user) => {
-        return user.username === username;
-    });
-    if (hasUsername) {
+    const sqlUsername = `
+        SELECT * FROM users
+        WHERE username = ?
+    `;
+    const hasUsername = await query(sqlUsername, [username]);
+    if (hasUsername.length !== 0) {
         throw new HttpError("Could not create user, username exists.", 422);
-    }
+    };
 
     const createdUser = {
         uid: uuidv4(),
@@ -46,24 +47,37 @@ const register = (req, res, next) => {
         password
     };
 
-    DUMMY_USERS.push(createdUser);
+    const sql = `
+        INSERT INTO users
+            (uid, username, email, password)
+            VALUES (?, ?, ?, ?)
+    `;
+    const result = await query(sql, [
+        createdUser.uid,
+        createdUser.username,
+        createdUser.email,
+        createdUser.password
+    ]);
 
-    res.status(201).json({user: createdUser});
+    res.status(201).json({ user: createdUser, result: result });
 };
 
-const login = (req, res, next) => {
+const login = async (req, res, next) => {
     const { email, password } = req.body;
-    
-    const identifiedUser = DUMMY_USERS.find((user) => {
-        return user.email === email;
-    });
 
-    if (!identifiedUser || identifiedUser.password !== password) {
+    const sql = `
+        SELECT * FROM users
+        WHERE email = ?
+    `;
+    const identifiedUser = await query(sql, [email]);
+
+    if (identifiedUser.length === 0 || identifiedUser[0].password !== password) {
+        console.log(identifiedUser);
         const error = new HttpError("User credentials wrong.", 401);
         throw error;
     };
 
-    res.json({message: "logged in"});
+    res.json({ message: "logged in" });
 };
 
 exports.getUsers = getUsers;

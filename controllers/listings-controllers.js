@@ -59,7 +59,7 @@ const createNewListing = async (req, res, next) => {
     const sql = `
         INSERT INTO listings
             (uid, user_uid, category, name, price, description)
-        VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
     `;
 
     const result = await query(sql, [

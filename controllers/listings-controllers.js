@@ -1,127 +1,79 @@
+const { v4: uuidv4 } = require("uuid");
+const { validationResult } = require("express-validator");
+
 const HttpError = require("../models/http-error");
+const { query } = require("../models/db");
 
-
-const DUMMY_LISTINGS = [
-    {
-        user_uid: "25388sd3",
-        uid: "1",
-        category: "Clothing",
-        // image: image,
-        name: "product 1", 
-        price: "$100", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25388sd3",
-        uid: "2",
-        category: "Housing",
-        // image: image,
-        name: "product 2", 
-        price: "$5", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25388sd3",
-        uid: "3",
-        category: "Daily Needs",
-        // image: image,
-        name: "product 3", 
-        price: "$20", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25388sd3",
-        uid: "4",
-        category: "Daily Needs",
-        // image: image,
-        name: "product 4", 
-        price: "$100", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25e88sd3",
-        uid: "5",
-        category: "Daily Needs",
-        // image: image,
-        name: "product 5", 
-        price: "$100", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25e88sd3",
-        uid: "6",
-        category: "Housing",
-        // image: image,
-        name: "product 6", 
-        price: "$120", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25e88sd3",
-        uid: "7",
-        category: "Housing",
-        // image: image,
-        name: "product 7", 
-        price: "$204", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25e88sd3",
-        uid: "8",
-        category: "Daily Needs",
-        // image: image,
-        name: "product 8", 
-        price: "$100", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25e88sd3",
-        uid: "9",
-        category: "Housing",
-        // image: image,
-        name: "product 9", 
-        price: "$204", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    },
-    {
-        user_uid: "25e88sd3",
-        uid: "10",
-        category: "Daily Needs",
-        // image: image,
-        name: "product 10", 
-        price: "$100", 
-        description: "Some quick example text to build on the card title and make up the bulk of the card's content."
-    }
-
-];
-
-const getListingById = (req, res, next) => {
+const getListingById = async (req, res, next) => {
     const listingId = req.params.listingId;
-    const listing = DUMMY_LISTINGS.find((listing) => {
-        return listing.uid == listingId;
-    });
 
-    if (!listing) {
+    const sql = `
+        SELECT * FROM listings
+        WHERE uid = ?
+    `;
+
+    const listing = await query(sql, [listingId]);
+
+    if (!listing || listing.length === 0) {
         const error = new HttpError("Could not find listing.", 404);
         return next(error);
     };
 
-    res.json({listing});
+    res.json({ listing });
 };
 
-const getListingsByUserId = (req, res, next) => {
+const getListingsByUserId = async (req, res, next) => {
     const userId = req.params.userId;
-    const listings = DUMMY_LISTINGS.filter((listing) => {
-        return listing.user_uid == userId;
-    });
 
-    if (listings.length == 0) {
+    const sql = `
+        SELECT * FROM listings
+        WHERE user_uid = ?
+    `;
+
+    const listings = await query(sql, [userId]);
+
+    if (!listings || listings.length === 0) {
         const error = new Error("No listings found for user", 404);
         return next(error);
     };
 
-    res.json({listings})
+    res.json({ listings })
+};
+
+const createNewListing = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        throw new HttpError("Invalid inputs passed, check data.", 422);
+    }
+
+    const { user_uid, category, name, price, description } = req.body;
+    const createdNewListing = {
+        uid: uuidv4(),
+        user_uid,
+        category,
+        name,
+        price,
+        description
+    };
+
+    const sql = `
+        INSERT INTO listings
+            (uid, user_uid, category, name, price, description)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    const result = await query(sql, [
+        createdNewListing.uid, 
+        createdNewListing.user_uid, 
+        createdNewListing.category, 
+        createdNewListing.name, 
+        createdNewListing.price, 
+        createdNewListing.description
+    ]);
+
+    res.status(201).json({ listing: createdNewListing });
 };
 
 exports.getListingById = getListingById;
 exports.getListingsByUserId = getListingsByUserId;
+exports.createNewListing = createNewListing;

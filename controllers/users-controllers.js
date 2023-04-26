@@ -64,7 +64,7 @@ const register = async (req, res, next) => {
         createdUser.password
     ]);
 
-    res.status(201).json({ user: createdUser, result: result });
+    res.status(201).json({ user: createdUser.uid });
 };
 
 const login = async (req, res, next) => {
@@ -83,7 +83,7 @@ const login = async (req, res, next) => {
         return next(error);
     };
 
-    res.json({ message: "logged in" });
+    res.json({ user: identifiedUser[0].uid });
 };
 
 exports.getUsers = getUsers;

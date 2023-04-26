@@ -4,6 +4,16 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const { query } = require("../models/db");
 
+const getListings = async (req, res, next) => {
+
+    const sql = `
+        SELECT * FROM listings
+    `;
+    const listings = await query(sql);
+
+    res.json({ listings });
+};
+
 const getListingById = async (req, res, next) => {
     const listingId = req.params.listingId;
 
@@ -75,6 +85,7 @@ const createNewListing = async (req, res, next) => {
     res.status(201).json({ listing: createdNewListing });
 };
 
+exports.getListings = getListings;
 exports.getListingById = getListingById;
 exports.getListingsByUserId = getListingsByUserId;
 exports.createNewListing = createNewListing;

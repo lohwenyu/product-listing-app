@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import { useHttpClient } from "../hooks/http-hook";
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -8,73 +10,54 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const redirectPath = location.state?.path || "/profile";
     const [user, setUser] = useState({
-        username: "",
+        uid: "",
         permissions: [],
     });
-    const [error, setError] = useState();
+    // const [error, setError] = useState();
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const login = async (user) => {
 
         try {
-            const response = await fetch("http://localhost:8080/api/users/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
+            const responseData = await sendRequest(
+                "http://localhost:8080/api/users/login", 
+                "POST",
+                JSON.stringify({
                     email: user.email,
                     password: user.password
-                })
-            });
-
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                throw new Error(responseData.message);
-            };
-
-            console.log(responseData);
-            setUser({ username: user.username, permissions: ["authorised"] });
+                }),
+                {
+                    "Content-Type": "application/json"
+                }
+            );
+            setUser({ uid: responseData.user, permissions: ["authorised"] });
             navigate(redirectPath, { replace: true });
 
-        } catch (err) {
-            console.log(err);
-            setError(err.message || "Something went wrong, please try again.")
-        };
+        } catch (err) {};
     };
 
     const logout = () => {
-        setUser({ username: "", permissions: [] });
+        setUser({ uid: "", permissions: [] });
     };
 
     const register = async (user) => {
 
         try {
-            const response = await fetch("http://localhost:8080/api/users/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
+            await sendRequest(
+                "http://localhost:8080/api/users/register",
+                "POST",
+                JSON.stringify({
                     username: user.username,
                     email: user.email,
                     password: user.password
-                })
-            });
-
-            const responseData = await response.json();
-
-            if (!response.ok) {
-                throw new Error(responseData.message);
-            };
-
-            console.log(responseData);
+                }),
+                {
+                    "Content-Type": "application/json"
+                },
+            );
             login(user);
 
-        } catch (err) {
-            console.log(err);
-            setError(err.message || "Something went wrong, please try again.")
-        };
+        } catch (err) {};
 
     }
     return <AuthContext.Provider value={{ user, login, logout, register, error }}>{children}</AuthContext.Provider>;

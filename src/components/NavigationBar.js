@@ -20,9 +20,9 @@ export const NavigationBar = () => {
                 <Navbar.Brand>Platform</Navbar.Brand>
                 <Navbar.Collapse>
                     <Nav className="me-auto">
-                        {user.username && <Nav.Link><NavLink to="/allProducts" className="navigation-bar-link">All Products</NavLink></Nav.Link>}
-                        {user.username && <Nav.Link><NavLink to="/myListings" className="navigation-bar-link">My Listings</NavLink></Nav.Link>}
-                        {user.username && <Nav.Link><NavLink to="/profile" className="navigation-bar-link">Profile</NavLink></Nav.Link>}
+                        {user.uid && <Nav.Link><NavLink to="/allProducts" className="navigation-bar-link">All Products</NavLink></Nav.Link>}
+                        {user.uid && <Nav.Link><NavLink to="/myListings" className="navigation-bar-link">My Listings</NavLink></Nav.Link>}
+                        {user.uid && <Nav.Link><NavLink to="/profile" className="navigation-bar-link">Profile</NavLink></Nav.Link>}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

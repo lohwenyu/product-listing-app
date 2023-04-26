@@ -11,7 +11,7 @@ const Profile = () => {
 
     return (
         <>
-            <h1>Profile {user.username}</h1>
+            <h1>Profile {user.uid}</h1>
 
             
 

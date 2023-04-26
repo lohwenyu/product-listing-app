@@ -6,7 +6,7 @@ export const UnauthorisedLayout = ({ children }) => {
     const { user } = useAuth();
     const location = useLocation();
 
-    if (user.username) {
+    if (user.uid) {
         return <Navigate to="/allProducts" state={{ path: location.pathname }} replace />;
     }
 

@@ -22,33 +22,24 @@ const productCategories = [
     "Office Supplies",
     "Arts, Crafts & Sewing",
     "Appliances",
-    "Books"
+    "Books",
+    "Others"
 ]
 
 const AllProducts = () => {
 
     const [loadedProducts, setLoadedProducts] = useState();
-    const [error, setError] = useState();
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     useEffect(() => {
-        const sendRequest = async () => {
-
+        const fetchProducts = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/listings");
-
-                const responseData = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-
+                const responseData = await sendRequest("http://localhost:8080/api/listings");
                 setLoadedProducts(responseData.listings);
-            } catch (err) {
-                setError(err.message);
-            }
+            } catch (err) { };
         };
-        sendRequest();
-    }, []);
+        fetchProducts();
+    }, [sendRequest]);
 
     return (
         <div className="main-container">
@@ -62,20 +53,20 @@ const AllProducts = () => {
                     })}
                 </Form.Select>
             </Form>
-            {loadedProducts && 
-            <div className="product-container">
-                {loadedProducts.map((product) => {
-                    return <Card className="product-card">
-                        <Card.Img variant="top" src={image} />
-                        <Card.Body>
-                            <Card.Title>{product.name}</Card.Title>
-                            <Card.Text>{product.price}</Card.Text>
-                            <Card.Text>{product.description}</Card.Text>
-                            <Button variant="primary">View Product</Button>
-                        </Card.Body>
-                    </Card>
-                })}
-            </div>
+            {loadedProducts &&
+                <div className="product-container">
+                    {loadedProducts.map((product) => {
+                        return <Card className="product-card">
+                            <Card.Img variant="top" src={image} />
+                            <Card.Body>
+                                <Card.Title>{product.name}</Card.Title>
+                                <Card.Text>{product.price}</Card.Text>
+                                <Card.Text>{product.description}</Card.Text>
+                                <Button variant="primary">View Product</Button>
+                            </Card.Body>
+                        </Card>
+                    })}
+                </div>
             }
         </div>
     )

@@ -9,12 +9,6 @@ import "./NavigationBar.css"
 export const NavigationBar = () => {
     const { user } = useAuth();
     return (
-        // <nav>
-        //     {user.username && <NavLink to="/allProducts">All Products</NavLink>}
-        //     {user.username && <NavLink to="/myListings">My Listings</NavLink>}
-        //     {user.username && <NavLink to="/profile">Profile</NavLink>}
-        // </nav>
-
         <Navbar bg="light" expand="lg" sticky="top">
             <Container>
                 <Navbar.Brand>Platform</Navbar.Brand>

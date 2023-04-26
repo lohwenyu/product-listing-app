@@ -8,11 +8,20 @@ import './Register.css';
 
 const Register = () => {
     
-    const [user, setUser] = useState(null);
-    const { register } = useAuth();
+    const [user, setUser] = useState({});
+    const { register, error } = useAuth();
     const navigate = useNavigate();
 
-    const handleRegister = () => {
+    const handleInput = (e) => {
+        const {name, value} = e.target;
+        setUser(prevUser => ({
+            ...prevUser,
+            [name]: value
+        }));
+    };
+
+    const handleRegister = async event => {
+        event.preventDefault();
         register(user);
     };
 
@@ -26,23 +35,24 @@ const Register = () => {
                 <h1>Register</h1>
                 <Form.Group className="form-input">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" placeholder="Username" onChange={(e) => setUser(e.target.value)} />
+                    <Form.Control type="text" placeholder="Username" onChange={handleInput} name="username"/>
                 </Form.Group>
                 <Form.Group className="form-input">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Email" />
+                    <Form.Control type="email" placeholder="Email" onChange={handleInput} name="email"/>
                 </Form.Group>
-                <Form.Group className="form-input" controlId="formBasicPassword">
+                <Form.Group className="form-input">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password"/>
+                    <Form.Control type="password" placeholder="Password" onChange={handleInput} name="password"/>
                 </Form.Group>
-                <Form.Group className="form-input" controlId="formBasicPassword">
+                {/* <Form.Group className="form-input">
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control type="password" placeholder="Confirm Password"/>
-                </Form.Group>
+                </Form.Group> */}
                 <Button variant="outline-primary" type="submit" onClick={handleRegister} className="button">
                     Register
                 </Button>
+                {error && <p className="error-message">{error}</p>}
                 <br/>
                 <Form.Text>Already have an account?</Form.Text>
                 <Button variant="link" onClick={redirectLogin}>Login here</Button>

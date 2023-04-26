@@ -27,3 +27,9 @@
     margin: 1rem;
     width: 10vw;
 }
+
+.error-message { 
+    text-align: center;
+    color: red;
+    font-size: small;
+}

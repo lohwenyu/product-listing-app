@@ -10,29 +10,10 @@ import PERMISSIONS from "../permissions/Permissions";
 import AllProducts from "../components/AllProducts";
 import MyListings from "../components/MyListings";
 import NewListing from "../components/NewListing";
-import Profile from "../components/Profile";
-
 
 const RoutePath = () => {
     return (
         <Routes>
-            {/* <Route path="/" element={<AllProducts />} />
-            <Route element={<Authorisation permissions={[PERMISSIONS.CAN_VIEW_ABOUT]} />}>
-                <Route path="about" element={<About />} />
-            </Route>
-            <Route
-                path="profile"
-                element={
-                    <Authentication>
-                        <Profile />
-                    </Authentication>
-                }
-            />
-            <Route element={<Authorisation permissions={[PERMISSIONS.CAN_VIEW_MYLISTINGS]} />}>
-                <Route path="myListings" element={<MyListings />} />
-            </Route>
-            <Route path="login" element={<Login />} /> */}
-
             <Route element={<UnauthorisedLayout />}>
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
@@ -41,7 +22,6 @@ const RoutePath = () => {
                 <Route path="/allProducts" element={<AllProducts />} />
                 <Route path="/myListings" element={<MyListings />} />
                 <Route path="/newListing" element={<NewListing />} />
-                <Route path="/profile" element={<Profile />} />
             </Route>
         </Routes>
     );

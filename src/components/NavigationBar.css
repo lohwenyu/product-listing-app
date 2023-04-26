@@ -1,3 +1,9 @@
 .navigation-bar-link:link {
     text-decoration: none;
 }
+
+.navigation-bar-logout {
+    text-decoration: none;
+    position: absolute;
+    right: 1rem;
+}

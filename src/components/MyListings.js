@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import image from '../assets/placeholder-image.jpg';
-
 import { useAuth } from "../provider/AuthProvider";
 import { useHttpClient } from "../hooks/http-hook";
+
+import image from '../assets/placeholder-image.jpg';
 
 import './MyListings.css';
 

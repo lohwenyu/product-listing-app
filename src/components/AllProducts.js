@@ -24,7 +24,7 @@ const productCategories = [
     "Appliances",
     "Books",
     "Others"
-]
+];
 
 const AllProducts = () => {
 

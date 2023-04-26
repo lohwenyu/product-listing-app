@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { useHttpClient } from "../hooks/http-hook";
 
-import image from '../assets/placeholder-image.jpg';
-
 import './MyListings.css';
 
 const MyListings = () => {
@@ -40,7 +38,7 @@ const MyListings = () => {
                 <div className="listing-container">
                     {loadedListings.map((listing) => {
                         return <Card className="listing-card">
-                            <Card.Img variant="top" src={image} />
+                            <Card.Img variant="top" src={`http://localhost:8080/${listing.image}`} />
                             <Card.Body>
                                 <Card.Title>{listing.name}</Card.Title>
                                 <Card.Text>{listing.price}</Card.Text>

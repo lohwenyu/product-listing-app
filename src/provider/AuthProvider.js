@@ -13,10 +13,11 @@ export const AuthProvider = ({ children }) => {
         uid: "",
         permissions: [],
     });
-    // const [error, setError] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const login = async (user) => {
+
+        clearError()
 
         try {
             const responseData = await sendRequest(
@@ -41,6 +42,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (user) => {
+
+        clearError()
 
         try {
             await sendRequest(

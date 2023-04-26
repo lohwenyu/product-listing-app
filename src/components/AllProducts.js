@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, InputGroup, SplitButton } from "react-bootstrap";
-import image from '../assets/placeholder-image.jpg';
 
 import { useHttpClient } from "../hooks/http-hook";
 
@@ -89,7 +88,7 @@ const AllProducts = () => {
                 <div className="product-container">
                     {loadedProducts.map((product) => {
                         return <Card className="product-card">
-                            <Card.Img variant="top" src={image} />
+                            <Card.Img variant="top" src={`http://localhost:8080/${product.image}`} />
                             <Card.Body>
                                 <Card.Title>{product.name}</Card.Title>
                                 <Card.Text>{product.price}</Card.Text>

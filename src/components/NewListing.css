@@ -30,6 +30,13 @@
     object-fit: cover;
 }
 
+.image-message {
+    /* text-align: center; */
+    color: grey;
+    font-size: small;
+}
+
+
 .button {
     width: 10vw;
     align-self: center;

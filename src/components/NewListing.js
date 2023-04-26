@@ -33,8 +33,9 @@ const NewListing = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const navigate = useNavigate();
 
-    const [newListing, setNewListing] = useState({});
-    const [listingImages, setListingImages] = useState([]);
+    const [newListing, setNewListing] = useState({
+        description: ""
+    });
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -44,25 +45,32 @@ const NewListing = () => {
         }));
     };
 
+    const handleImageInput = (e) => {
+        const image = Array.from(e.target.files)[0];
+        setNewListing(prevUser => ({
+            ...prevUser,
+            image: image
+        }));
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            const formData = new FormData();
+            formData.append("user_uid", user.uid);
+            formData.append("category", newListing.category);
+            formData.append("name", newListing.name);
+            formData.append("price", newListing.price);
+            formData.append("description", newListing.description);
+            formData.append("image", newListing.image);
+
             await sendRequest(
                 "http://localhost:8080/api/listings/newListing",
                 "POST",
-                JSON.stringify({
-                    user_uid: user.uid, 
-                    category: newListing.category, 
-                    name: newListing.name, 
-                    price: newListing.price, 
-                    description: newListing.description
-                }),
-                {
-                    "Content-Type": "application/json"
-                }
+                formData
             );
             navigate('/myListings');
-        } catch (err) {};
+        } catch (err) { };
     };
 
     return (
@@ -99,18 +107,20 @@ const NewListing = () => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>Add Photos</Form.Label>
-                    <Form.Control type="file" multiple accept="image/*" onChange={(e) => setListingImages(Array.from(e.target.files))} />
+                    <Form.Control type="file" accept="image/*" onChange={handleImageInput} name="image"/>
                 </Form.Group>
 
-                <div className="image-preview-container">
-                    {listingImages.map((image) => {
-                        return <Image img-fluid src={URL.createObjectURL(image)} className="image-preview" />
-                    })}
-                </div>
-
+                {newListing.image ?
+                    <div className="image-preview-container">
+                        <Image src={URL.createObjectURL(newListing.image)} className="image-preview" />
+                    </div>
+                    :
+                    <p className="image-message">Select at lease 1 image.</p>
+                }
                 <Button variant="primary" type="submit" className="button" onClick={handleSubmit} >
                     Submit
                 </Button>
+
             </Form>
         </div>
     );

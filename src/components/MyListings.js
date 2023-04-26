@@ -45,7 +45,7 @@ const MyListings = () => {
                                 <Card.Title>{listing.name}</Card.Title>
                                 <Card.Text>{listing.price}</Card.Text>
                                 <Card.Text>{listing.description}</Card.Text>
-                                <Button variant="primary">Edit Listing</Button>
+                                <Button variant="primary">View Listing</Button>
                             </Card.Body>
                         </Card>
                     })}

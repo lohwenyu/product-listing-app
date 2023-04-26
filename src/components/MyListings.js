@@ -6,6 +6,7 @@ import { useAuth } from "../provider/AuthProvider";
 import { useHttpClient } from "../hooks/http-hook";
 
 import './MyListings.css';
+import ProductCards from "./ProductCards";
 
 const MyListings = () => {
 
@@ -33,22 +34,8 @@ const MyListings = () => {
     return (
         <div className="main-container">
             <h1>My Listings</h1>
-            <Button variant="primary" onClick={redirectNewListing}>New Listing</Button>
-            {loadedListings &&
-                <div className="listing-container">
-                    {loadedListings.map((listing) => {
-                        return <Card className="listing-card">
-                            <Card.Img variant="top" src={`http://localhost:8080/${listing.image}`} />
-                            <Card.Body>
-                                <Card.Title>{listing.name}</Card.Title>
-                                <Card.Text>{listing.price}</Card.Text>
-                                <Card.Text>{listing.description}</Card.Text>
-                                <Button variant="primary">View Listing</Button>
-                            </Card.Body>
-                        </Card>
-                    })}
-                </div>
-            }
+            <Button className="new-listing-button" variant="primary" onClick={redirectNewListing}>New Listing</Button>
+            <ProductCards loadedProducts={loadedListings}/>
         </div>
     )
 

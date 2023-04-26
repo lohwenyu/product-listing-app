@@ -1,0 +1,21 @@
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 18rem);
+    justify-content: center;
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+
+.product-card {
+    width: 18rem;
+}
+
+.product-image {
+    height: 14rem;
+    object-fit: cover;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 2rem;
+}

@@ -107,15 +107,13 @@ const NewListing = () => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>Add Photos</Form.Label>
-                    <Form.Control type="file" accept="image/*" onChange={handleImageInput} name="image"/>
+                    <Form.Control type="file" accept="image/*" onChange={handleImageInput} name="image" />
                 </Form.Group>
 
                 {newListing.image ?
-                    <div className="image-preview-container">
-                        <Image src={URL.createObjectURL(newListing.image)} className="image-preview" />
-                    </div>
+                    <Image src={URL.createObjectURL(newListing.image)} className="image-preview" />
                     :
-                    <p className="image-message">Select at lease 1 image.</p>
+                    <p className="image-message">Upload an image.</p>
                 }
                 <Button variant="primary" type="submit" className="button" onClick={handleSubmit} >
                     Submit

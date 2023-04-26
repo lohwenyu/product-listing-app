@@ -17,13 +17,6 @@
     height: fit-content;
 }
 
-.image-preview-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 10rem);
-    column-gap: 2rem;
-    row-gap: 2rem;
-}
-
 .image-preview {
     width: 10rem;
     height: 10rem;
@@ -31,7 +24,6 @@
 }
 
 .image-message {
-    /* text-align: center; */
     color: grey;
     font-size: small;
 }

@@ -3,6 +3,8 @@ import { Button, Card, Form, InputGroup, SplitButton } from "react-bootstrap";
 
 import { useHttpClient } from "../hooks/http-hook";
 
+import ProductCards from "./ProductCards";
+
 import './AllProducts.css';
 
 const productCategories = [
@@ -84,21 +86,7 @@ const AllProducts = () => {
                     </InputGroup>
                 </Form.Group>
             </Form>
-            {loadedProducts &&
-                <div className="product-container">
-                    {loadedProducts.map((product) => {
-                        return <Card className="product-card">
-                            <Card.Img variant="top" src={`http://localhost:8080/${product.image}`} />
-                            <Card.Body>
-                                <Card.Title>{product.name}</Card.Title>
-                                <Card.Text>{product.price}</Card.Text>
-                                <Card.Text>{product.description}</Card.Text>
-                                <Button variant="primary">View Product</Button>
-                            </Card.Body>
-                        </Card>
-                    })}
-                </div>
-            }
+            <ProductCards loadedProducts={loadedProducts}/>
         </div>
     )
 };

@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         clearError()
 
         try {
-            await sendRequest(
+            const responseData = await sendRequest(
                 "http://localhost:8080/api/users/register",
                 "POST",
                 JSON.stringify({
@@ -58,7 +58,8 @@ export const AuthProvider = ({ children }) => {
                     "Content-Type": "application/json"
                 },
             );
-            login(user);
+            setUser({ uid: responseData.user, permissions: ["authorised"] });
+            navigate(redirectPath, { replace: true });
 
         } catch (err) {};
 

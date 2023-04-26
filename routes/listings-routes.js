@@ -5,9 +5,11 @@ const listingsControllers = require("../controllers/listings-controllers");
 
 const router = express.Router();
 
-router.get("/", listingsControllers.getListings);
+router.get("/:category", listingsControllers.getListingsByCategory);
 
-router.get("/:listingId", listingsControllers.getListingById);
+router.get("/search/:searchText", listingsControllers.getListingBySearch);
+
+router.get("/id/:listingId", listingsControllers.getListingById);
 
 router.get("/user/:userId", listingsControllers.getListingsByUserId);
 

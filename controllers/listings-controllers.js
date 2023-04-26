@@ -4,12 +4,34 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const { query } = require("../models/db");
 
-const getListings = async (req, res, next) => {
+const getListingsByCategory = async (req, res, next) => {
+    const category = req.params.category;
+
+    let sql;
+    if (category === "all") {
+        sql = `SELECT * FROM listings`;
+    } else {
+        sql = `
+            SELECT * FROM listings
+            WHERE category = ?
+        `;
+    };
+
+    const listings = await query(sql, [category]);
+
+    res.json({ listings });
+};
+
+const getListingBySearch = async (req, res, next) => {
+    const searchText = req.params.searchText;
 
     const sql = `
         SELECT * FROM listings
-    `;
-    const listings = await query(sql);
+        WHERE MATCH (name, category, description)
+        AGAINST (? IN NATURAL LANGUAGE MODE);
+    `
+
+    const listings = await query(sql, [searchText]);
 
     res.json({ listings });
 };
@@ -85,7 +107,8 @@ const createNewListing = async (req, res, next) => {
     res.status(201).json({ listing: createdNewListing });
 };
 
-exports.getListings = getListings;
+exports.getListingsByCategory = getListingsByCategory;
+exports.getListingBySearch = getListingBySearch;
 exports.getListingById = getListingById;
 exports.getListingsByUserId = getListingsByUserId;
 exports.createNewListing = createNewListing;

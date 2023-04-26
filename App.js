@@ -30,7 +30,7 @@ app.use("/api/listings", listingsRoutes);
 
 app.use((req, res, next) => {
     const error = new HttpError("Could not find route", 404);
-    throw error;
+    return next(error);
 });
 
 app.use((error, req, res, next) => {

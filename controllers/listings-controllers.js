@@ -43,7 +43,8 @@ const getListingsByUserId = async (req, res, next) => {
 const createNewListing = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        throw new HttpError("Invalid inputs passed, check data.", 422);
+        const error = new HttpError("Invalid inputs passed, check data.", 422);
+        return next(error);
     }
 
     const { user_uid, category, name, price, description } = req.body;

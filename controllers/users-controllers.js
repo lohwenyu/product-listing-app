@@ -17,7 +17,8 @@ const getUsers = async (req, res, next) => {
 const register = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        throw new HttpError("Invalid register information, check data.", 422);
+        const error = new HttpError("Invalid register information, check data.", 422);
+        return next(error);
     }
 
     const { username, email, password } = req.body;
@@ -28,7 +29,8 @@ const register = async (req, res, next) => {
     `;
     const hasEmail = await query(sqlEmail, [email]);
     if (hasEmail.length !== 0) {
-        throw new HttpError("Could not create user, email exists.", 422);
+        const error = HttpError("Could not create user, email exists.", 422);
+        return next(error);
     };
 
     const sqlUsername = `
@@ -37,7 +39,8 @@ const register = async (req, res, next) => {
     `;
     const hasUsername = await query(sqlUsername, [username]);
     if (hasUsername.length !== 0) {
-        throw new HttpError("Could not create user, username exists.", 422);
+        const error = HttpError("Could not create user, username exists.", 422);
+        return next(error);
     };
 
     const createdUser = {
@@ -74,7 +77,7 @@ const login = async (req, res, next) => {
     if (identifiedUser.length === 0 || identifiedUser[0].password !== password) {
         console.log(identifiedUser);
         const error = new HttpError("User credentials wrong.", 401);
-        throw error;
+        return next(error);
     };
 
     res.json({ message: "logged in" });

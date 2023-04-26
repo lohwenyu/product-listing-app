@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid"); //consider changing to mysql uid
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
 const HttpError = require("../models/http-error");
 const { query } = require("../models/db");
@@ -45,11 +46,20 @@ const register = async (req, res, next) => {
         return next(error);
     };
 
+    let hashedPassword;
+    try {
+        hashedPassword = await bcrypt.hash(password, 12);
+    } catch (err) {
+        const error = new HttpError("Could not create user, please try again.", 500);
+        return next(error);
+    };
+    
+
     const createdUser = {
         uid: uuidv4(),
         username,
         email,
-        password
+        password: hashedPassword
     };
 
     const sql = `
@@ -78,10 +88,23 @@ const login = async (req, res, next) => {
     
     const identifiedUser = await query(sql, [email]);
 
-    if (identifiedUser.length === 0 || identifiedUser[0].password !== password) {
+    if (identifiedUser.length === 0) {
         const error = new HttpError("User credentials wrong.", 401);
         return next(error);
     };
+
+    let isValidPassword = false;
+    try {
+        isValidPassword = await bcrypt.compare(password, identifiedUser.password);
+    } catch (err) {
+        const error = new HttpError("Could not log you in, please try again.", 500);
+        return next(error);
+    };
+
+    if (!isValidPassword) {
+        const error = new HttpError("User credentials wrong.", 401);
+        return next(error);
+    }
 
     res.json({ user: identifiedUser[0].uid });
 };

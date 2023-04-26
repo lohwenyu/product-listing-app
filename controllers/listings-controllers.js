@@ -86,13 +86,14 @@ const createNewListing = async (req, res, next) => {
         category,
         name,
         price,
-        description
+        description, 
+        image: req.file.path
     };
 
     const sql = `
         INSERT INTO listings
-            (uid, user_uid, category, name, price, description)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (uid, user_uid, category, name, price, description, image)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
     const result = await query(sql, [
@@ -101,7 +102,8 @@ const createNewListing = async (req, res, next) => {
         createdNewListing.category,
         createdNewListing.name,
         createdNewListing.price,
-        createdNewListing.description
+        createdNewListing.description,
+        createdNewListing.image
     ]);
 
     res.status(201).json({ listing: createdNewListing });

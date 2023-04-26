@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require("uuid"); //consider changing to mysql uid
 const { validationResult } = require("express-validator");
 
 const HttpError = require("../models/http-error");
@@ -7,7 +7,7 @@ const { query } = require("../models/db");
 const getUsers = async (req, res, next) => {
 
     const sql = `
-        SELECT * FROM users
+        SELECT uid, email, username FROM users
     `;
     const users = await query(sql);
 
@@ -24,22 +24,24 @@ const register = async (req, res, next) => {
     const { username, email, password } = req.body;
 
     const sqlEmail = `
-        SELECT * FROM users
+        SELECT 1 FROM users
         WHERE email = ?
+        LIMIT 1
     `;
     const hasEmail = await query(sqlEmail, [email]);
     if (hasEmail.length !== 0) {
-        const error = HttpError("Could not create user, email exists.", 422);
+        const error = new HttpError("Could not create user, email exists.", 422);
         return next(error);
     };
 
     const sqlUsername = `
-        SELECT * FROM users
+        SELECT 1 FROM users
         WHERE username = ?
+        LIMIT 1
     `;
     const hasUsername = await query(sqlUsername, [username]);
     if (hasUsername.length !== 0) {
-        const error = HttpError("Could not create user, username exists.", 422);
+        const error = new HttpError("Could not create user, username exists.", 422);
         return next(error);
     };
 
@@ -71,11 +73,12 @@ const login = async (req, res, next) => {
     const sql = `
         SELECT * FROM users
         WHERE email = ?
+        LIMIT 1
     `;
+    
     const identifiedUser = await query(sql, [email]);
 
     if (identifiedUser.length === 0 || identifiedUser[0].password !== password) {
-        console.log(identifiedUser);
         const error = new HttpError("User credentials wrong.", 401);
         return next(error);
     };

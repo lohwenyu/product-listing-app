@@ -1,20 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const mysql = require("mysql");
-
-// const connection = mysql.createConnection({
-//     host: "localhost",
-//     user: "hpe",
-//     password: "Hpe123"
-// })
-
-// connection.connect((error) => {
-//     if (error) {
-//         console.log('Error connecting to the MySQL Database');
-//         return;
-//     }
-//     console.log('Connection established sucessfully');
-// });
 
 const usersRoutes = require("./routes/users-routes");
 const listingsRoutes = require("./routes/listings-routes");
@@ -24,6 +9,19 @@ const HttpError = require("./models/http-error");
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST"
+    );
+    next();
+});
 
 app.use("/api/users", usersRoutes);
 app.use("/api/listings", listingsRoutes);
@@ -42,6 +40,3 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(8080);
-
-// connection.end((error) => {
-// });

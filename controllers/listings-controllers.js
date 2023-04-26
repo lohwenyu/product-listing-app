@@ -64,11 +64,11 @@ const createNewListing = async (req, res, next) => {
     `;
 
     const result = await query(sql, [
-        createdNewListing.uid, 
-        createdNewListing.user_uid, 
-        createdNewListing.category, 
-        createdNewListing.name, 
-        createdNewListing.price, 
+        createdNewListing.uid,
+        createdNewListing.user_uid,
+        createdNewListing.category,
+        createdNewListing.name,
+        createdNewListing.price,
         createdNewListing.description
     ]);
 

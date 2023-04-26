@@ -20,7 +20,7 @@ const Register = () => {
         }));
     };
 
-    const handleRegister = async event => {
+    const handleRegister = async (event) => {
         event.preventDefault();
         register(user);
     };
@@ -45,10 +45,6 @@ const Register = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" onChange={handleInput} name="password"/>
                 </Form.Group>
-                {/* <Form.Group className="form-input">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type="password" placeholder="Confirm Password"/>
-                </Form.Group> */}
                 <Button variant="outline-primary" type="submit" onClick={handleRegister} className="button">
                     Register
                 </Button>

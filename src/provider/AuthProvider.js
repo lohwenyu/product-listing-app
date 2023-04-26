@@ -13,25 +13,17 @@ export const AuthProvider = ({ children }) => {
     });
     const [error, setError] = useState();
 
-    const login = (user) => {
-        setUser({ username: user.username, permissions: ["authorised"] });
-        navigate(redirectPath, { replace: true });
-    };
-    const logout = () => {
-        setUser({ username: "", permissions: [] });
-    };
-    const register = async (user) => {
-    
+    const login = async (user) => {
+
         try {
-            const response = await fetch("http://localhost:8080/api/users/register", {
+            const response = await fetch("http://localhost:8080/api/users/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    username: user.username, 
                     email: user.email,
-                    password: user.password 
+                    password: user.password
                 })
             });
 
@@ -43,6 +35,40 @@ export const AuthProvider = ({ children }) => {
 
             console.log(responseData);
             setUser({ username: user.username, permissions: ["authorised"] });
+            navigate(redirectPath, { replace: true });
+
+        } catch (err) {
+            console.log(err);
+            setError(err.message || "Something went wrong, please try again.")
+        };
+    };
+
+    const logout = () => {
+        setUser({ username: "", permissions: [] });
+    };
+
+    const register = async (user) => {
+
+        try {
+            const response = await fetch("http://localhost:8080/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: user.username,
+                    email: user.email,
+                    password: user.password
+                })
+            });
+
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            };
+
+            console.log(responseData);
             login(user);
 
         } catch (err) {

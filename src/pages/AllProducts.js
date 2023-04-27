@@ -32,7 +32,7 @@ const AllProducts = () => {
     const [loadedProducts, setLoadedProducts] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-    const [searchText, setSearchText] = useState();
+    const [searchText, setSearchText] = useState("all");
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -42,7 +42,7 @@ const AllProducts = () => {
             } catch (err) { };
         };
         fetchProducts();
-    }, [sendRequest,]);
+    }, [sendRequest]);
 
     const handleCategoryFilter = (e) => {
         const category = e.target.value;
@@ -54,6 +54,15 @@ const AllProducts = () => {
         };
         fetchProducts();
     };
+
+    const handleSearchText = (e) => {
+        const text = e.target.value.trim();
+        if (text) {
+            setSearchText(text);
+        } else {
+            setSearchText("all")
+        }
+    }
 
     const handleSearch = (event) => {
         event.preventDefault();
@@ -74,14 +83,14 @@ const AllProducts = () => {
                 <Form.Group className="mb-3 filter-group">
                     <Form.Select onChange={handleCategoryFilter}>
                         <option value="all">Select category...</option>
-                        {productCategories.map((category) => {
-                            return <option value={category}>{category}</option>
+                        {productCategories.map((category, index) => {
+                            return <option key={index} value={category}>{category}</option>
                         })}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3 filter-group">
                     <InputGroup>
-                        <Form.Control type="text" placeholder="Search for products..." onChange={(e) => setSearchText(e.target.value)}/>
+                        <Form.Control type="text" placeholder="Search for products..." onChange={handleSearchText}/>
                         <Button variant="outline-secondary" type="submit" onClick={handleSearch}>Search</Button>
                     </InputGroup>
                 </Form.Group>

@@ -30,7 +30,7 @@ const productCategories = [
 const NewListing = () => {
 
     const { user } = useAuth();
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const navigate = useNavigate();
 
     const [newListing, setNewListing] = useState({

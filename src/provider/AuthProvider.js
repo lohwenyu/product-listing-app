@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
         uid: "",
         permissions: [],
     });
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { error, sendRequest, clearError } = useHttpClient();
 
     const login = async (user) => {
 

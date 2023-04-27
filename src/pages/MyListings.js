@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../provider/AuthProvider";
@@ -13,7 +13,7 @@ const MyListings = () => {
     const { user } = useAuth();
 
     const [loadedListings, setLoadedListings] = useState();
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
 
     const navigate = useNavigate()
 

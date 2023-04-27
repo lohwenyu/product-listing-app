@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image, Button } from "react-bootstrap";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { useHttpClient } from "../hooks/http-hook";
 
@@ -9,10 +9,9 @@ import './ViewProduct.css';
 const ViewProduct = () => {
 
     const { productUid } = useParams();
-    const navigate = useNavigate();
 
     const [loadedProduct, setLoadedProduct] = useState();
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
 
     useEffect(() => {
         const fetchProduct = async () => {

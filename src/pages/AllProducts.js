@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Form, InputGroup, SplitButton } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 
 import { useHttpClient } from "../hooks/http-hook";
 
@@ -30,7 +30,7 @@ const productCategories = [
 const AllProducts = () => {
 
     const [loadedProducts, setLoadedProducts] = useState();
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
 
     const [searchText, setSearchText] = useState("all");
 

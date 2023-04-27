@@ -9,6 +9,9 @@ const listingsRoutes = require("./routes/listings-routes");
 
 const HttpError = require("./models/http-error");
 
+const PORT = 8080;
+const HOST = "0.0.0.0";
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -49,4 +52,4 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || "An unknown error occurred!" });
 });
 
-app.listen(8080);
+app.listen(PORT);

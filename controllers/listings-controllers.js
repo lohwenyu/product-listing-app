@@ -25,11 +25,15 @@ const getListingsByCategory = async (req, res, next) => {
 const getListingBySearch = async (req, res, next) => {
     const searchText = req.params.searchText;
 
-    const sql = `
-        SELECT * FROM listings
-        WHERE MATCH (name, category, description)
-        AGAINST (? IN NATURAL LANGUAGE MODE);
-    `
+    if (searchText === "all") {
+        sql = `SELECT * FROM listings`;
+    } else {
+        sql = `
+            SELECT * FROM listings
+            WHERE MATCH (name, category, description)
+            AGAINST (? WITH QUERY EXPANSION);
+        `;
+    };
 
     const listings = await query(sql, [searchText]);
 
@@ -86,7 +90,7 @@ const createNewListing = async (req, res, next) => {
         category,
         name,
         price,
-        description, 
+        description,
         image: req.file.path
     };
 

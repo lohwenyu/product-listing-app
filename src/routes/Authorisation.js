@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, useLocation, Outlet } from "react-router-dom";
-import Unauthorised from "../components/Unauthorised";
+import Unauthorised from "../pages/Unauthorised";
 import { useAuth } from "../provider/AuthProvider";
 
 const Authorisation = ({ permissions }) => {

@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useLocalStorage } from "../hooks/useLocalStorage-hook";
 
 import { useHttpClient } from "../hooks/http-hook";
 
@@ -8,8 +9,8 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const redirectPath = location.state?.path || "/profile";
-    const [user, setUser] = useState({
+    const redirectPath = location.state?.path || "/allProducts";
+    const [user, setUser] = useLocalStorage("user", {
         uid: "",
         permissions: [],
     });

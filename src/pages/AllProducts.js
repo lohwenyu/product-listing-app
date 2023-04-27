@@ -3,7 +3,7 @@ import { Button, Card, Form, InputGroup, SplitButton } from "react-bootstrap";
 
 import { useHttpClient } from "../hooks/http-hook";
 
-import ProductCards from "./ProductCards";
+import ProductCards from "../components/ProductCards";
 
 import './AllProducts.css';
 

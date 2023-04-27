@@ -6,7 +6,7 @@ import { useAuth } from "../provider/AuthProvider";
 import { useHttpClient } from "../hooks/http-hook";
 
 import './MyListings.css';
-import ProductCards from "./ProductCards";
+import ProductCards from "../components/ProductCards";
 
 const MyListings = () => {
 

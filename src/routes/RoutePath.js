@@ -2,14 +2,15 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import { UnauthorisedLayout } from "./UnauthorisedLayout";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 import Authorisation from "./Authorisation";
 import PERMISSIONS from "../permissions/Permissions";
-import AllProducts from "../components/AllProducts";
-import MyListings from "../components/MyListings";
-import NewListing from "../components/NewListing";
+import AllProducts from "../pages/AllProducts";
+import MyListings from "../pages/MyListings";
+import ViewProduct from "../pages/ViewProduct";
+import NewListing from "../pages/NewListing";
 
 const RoutePath = () => {
     return (
@@ -21,6 +22,7 @@ const RoutePath = () => {
             <Route element={<Authorisation permissions={[PERMISSIONS.IS_AUTHORISED]} />}>
                 <Route path="/allProducts" element={<AllProducts />} />
                 <Route path="/myListings" element={<MyListings />} />
+                <Route path="/viewProduct/:productUid" element={<ViewProduct />} />
                 <Route path="/newListing" element={<NewListing />} />
             </Route>
         </Routes>

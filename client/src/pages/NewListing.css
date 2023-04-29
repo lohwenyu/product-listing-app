@@ -28,8 +28,13 @@
     font-size: small;
 }
 
-
 .button {
     width: 10vw;
     align-self: center;
+}
+
+.error-message { 
+    text-align: center;
+    color: red;
+    font-size: small;
 }

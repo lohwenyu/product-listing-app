@@ -79,10 +79,14 @@ const getListingsByUserId = async (req, res, next) => {
 const createNewListing = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        const error = new HttpError("Invalid inputs passed, check data.", 422);
+        const error = new HttpError("Ensure all required fields are fileld.", 422);
         return next(error);
-    }
+    } else if (req.file === undefined) {
+        const error = new HttpError("Add at least 1 image.", 422);
+        return next(error);
+    };
 
+    console.log(req.file.path);
     const { user_uid, category, name, price, description } = req.body;
     const createdNewListing = {
         uid: uuidv4(),

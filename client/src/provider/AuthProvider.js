@@ -17,9 +17,6 @@ export const AuthProvider = ({ children }) => {
     const { error, sendRequest, clearError } = useHttpClient();
 
     const login = async (user) => {
-
-        clearError()
-
         try {
             const responseData = await sendRequest(
                 "http://localhost:8080/api/users/login", 
@@ -43,9 +40,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (user) => {
-
-        clearError()
-
         try {
             const responseData = await sendRequest(
                 "http://localhost:8080/api/users/register",
@@ -65,7 +59,7 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {};
 
     }
-    return <AuthContext.Provider value={{ user, login, logout, register, error }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ user, login, logout, register, error, clearError }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

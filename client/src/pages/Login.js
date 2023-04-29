@@ -9,10 +9,11 @@ import './Login.css';
 const Login = () => {
 
     const [user, setUser] = useState({});
-    const { login, error } = useAuth();
+    const { login, error, clearError } = useAuth();
     const navigate = useNavigate();
 
     const handleInput = (e) => {
+        clearError();
         const {name, value} = e.target;
         setUser(prevUser => ({
             ...prevUser,
@@ -22,10 +23,12 @@ const Login = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        clearError();
         login(user);
     };
 
     const redirectRegister = () => {
+        clearError();
         navigate('/register')
     };
 

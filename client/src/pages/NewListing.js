@@ -30,7 +30,7 @@ const productCategories = [
 const NewListing = () => {
 
     const { user } = useAuth();
-    const { sendRequest } = useHttpClient();
+    const { error, sendRequest, clearError } = useHttpClient();
     const navigate = useNavigate();
 
     const [newListing, setNewListing] = useState({
@@ -38,6 +38,7 @@ const NewListing = () => {
     });
 
     const handleInput = (e) => {
+        clearError();
         const { name, value } = e.target;
         setNewListing(prevUser => ({
             ...prevUser,
@@ -84,10 +85,10 @@ const NewListing = () => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>Category</Form.Label>
-                    <Form.Select onChange={handleInput} name="category">
-                        <option value="" disabled selected>Select category</option>
-                        {productCategories.map((category) => {
-                            return <option value={category}>{category}</option>
+                    <Form.Select onChange={handleInput} name="category" defaultValue="">
+                        <option value="" disabled>Select category</option>
+                        {productCategories.map((category, index) => {
+                            return <option key={index} value={category}>{category}</option>
                         })}
                     </Form.Select>
                 </Form.Group>
@@ -111,14 +112,14 @@ const NewListing = () => {
                 </Form.Group>
 
                 {newListing.image ?
-                    <Image src={URL.createObjectURL(newListing.image)} className="image-preview" />
+                    <Image src={URL.createObjectURL(newListing.image)} className="image-preview" accept="image/jpeg, image/png, imgae/jpg"/>
                     :
                     <p className="image-message">Upload an image.</p>
                 }
                 <Button variant="primary" type="submit" className="button" onClick={handleSubmit} >
                     Submit
                 </Button>
-
+                {error && <p className="error-message">{error}</p>}
             </Form>
         </div>
     );

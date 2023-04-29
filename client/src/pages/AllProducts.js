@@ -3,7 +3,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 
 import { useHttpClient } from "../hooks/http-hook";
 
-import ProductCards from "../components/ProductCards";
+import ProductPage from "../components/ProductPage";
 
 import './AllProducts.css';
 
@@ -95,7 +95,7 @@ const AllProducts = () => {
                     </InputGroup>
                 </Form.Group>
             </Form>
-            <ProductCards loadedProducts={loadedProducts}/>
+            <ProductPage loadedProducts={loadedProducts}/>
         </div>
     )
 };

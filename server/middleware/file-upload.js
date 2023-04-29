@@ -1,5 +1,5 @@
 const multer = require("multer");
-const { v4: uuidv4 } = require("uuid"); //consider changing to mysql uid
+const { v4: uuidv4 } = require("uuid");
 
 const MIME_TYPE_MAP = {
     "image/png": "png",

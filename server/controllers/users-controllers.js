@@ -83,10 +83,10 @@ const login = async (req, res, next) => {
     const sql = `
         SELECT * FROM users
         WHERE email = ?
-        LIMIT 1
     `;
     
     const identifiedUser = await query(sql, [email]);
+    console.log(identifiedUser);
 
     if (identifiedUser.length === 0) {
         const error = new HttpError("User credentials wrong.", 401);
@@ -107,7 +107,7 @@ const login = async (req, res, next) => {
         return next(error);
     }
 
-    res.json({ user: identifiedUser[0].uid });
+    res.status(201).json({ user: identifiedUser[0].uid });
 };
 
 exports.getUsers = getUsers;

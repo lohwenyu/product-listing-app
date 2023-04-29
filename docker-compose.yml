@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    container_name: client_container
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - 3000:3000
+    networks:
+      - product-listing-app
+    command: npm start
+
+  server:
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    container_name: server_container
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+    networks:
+      - product-listing-app
+    volumes:
+      - uploads:/app/uploads
+    command: npm start
+
+  mysql:
+    image: mysql
+    container_name: mysql_container
+    restart: always
+    ports:
+      - 5001:3306
+    networks:
+      - product-listing-app
+    environment:
+      MYSQL_DATABASE: product-listing-app
+      MYSQL_HOST: localhost
+      MYSQL_ROOT_PASSWORD: Hpe123
+    volumes:
+      - ./mysql-dump:/docker-entrypoint-initdb.d
+      - ./mysql-db:/var/lib/mysql
+volumes:
+  mysql-dump:
+  mysql-db:
+  uploads:
+networks:
+  product-listing-app:
